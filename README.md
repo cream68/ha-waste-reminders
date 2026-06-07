@@ -9,7 +9,7 @@ Damit HACS die Integration installieren kann, muss dein GitHub-Repository so auf
 ```text
 .
 ├── custom_components/
-│   └── muell_erinnerung/
+│   └── ha_waste_reminders/
 │       ├── __init__.py
 │       ├── manifest.json
 │       ├── config_flow.py
@@ -29,9 +29,9 @@ Damit HACS die Integration installieren kann, muss dein GitHub-Repository so auf
 
 ## Wichtig
 
-Die lokale Entwicklungsstruktur unter `config/custom_components/muell_erinnerung/` ist fuer deine Home-Assistant-Instanz korrekt.
+Die lokale Entwicklungsstruktur unter `config/custom_components/ha_waste_reminders/` ist fuer deine Home-Assistant-Instanz korrekt.
 
-Fuer GitHub und HACS musst du aber nur den Ordner `muell_erinnerung` in ein Repo-Root unter `custom_components/` legen.
+Fuer GitHub und HACS musst du aber nur den Ordner `ha_waste_reminders` in ein Repo-Root unter `custom_components/` legen.
 
 Diese Ordner und Dateien solltest du nicht ins HACS-Repo uebernehmen:
 

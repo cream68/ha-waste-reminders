@@ -2,7 +2,7 @@
   "name": "Müll-Erinnerung",
   "country": "DE",
   "domains": [
-    "muell_erinnerung"
+    "ha_waste_reminders"
   ],
   "homeassistant": "2026.6.0",
   "render_readme": true

@@ -1,5 +1,5 @@
 {
-  "domain": "ha-waste-reminders",
+  "domain": "ha_waste_reminders",
   "name": "ha waste reminders",
   "version": "0.1.0",
   "documentation": "https://www.home-assistant.io/",

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import time
 
-DOMAIN = "ha-waste-reminders"
+DOMAIN = "ha_waste_reminders"
 NAME = "ha waste reminders"
 NOTIFICATION_TITLE = "Taubenweg 15"
 
