@@ -1,4 +1,4 @@
-# Müll-Erinnerung
+# ha waste reminders
 
 Custom Integration fuer Home Assistant.
 
