@@ -1,0 +1,9 @@
+{
+  "name": "Müll-Erinnerung",
+  "country": "DE",
+  "domains": [
+    "muell_erinnerung"
+  ],
+  "homeassistant": "2026.6.0",
+  "render_readme": true
+}

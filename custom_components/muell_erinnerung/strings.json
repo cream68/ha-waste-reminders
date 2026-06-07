@@ -1,0 +1,80 @@
+{
+  "config": {
+    "abort": {
+      "no_calendars": "Es wurden keine Kalender-Entitäten gefunden. Richte zuerst einen Kalender in Home Assistant ein."
+    },
+    "step": {
+      "user": {
+        "title": "Müllkalender auswählen",
+        "description": "Wähle den Kalender aus, in dem deine Abholtermine stehen. Im nächsten Schritt wird der Kalender automatisch analysiert.",
+        "data": {
+          "calendar_entity": "Müllkalender"
+        }
+      },
+      "waste_types": {
+        "title": "Relevante Müllarten auswählen",
+        "description": "Diese Müllarten wurden im Kalender erkannt. Aktiviere nur die Tonnen oder Säcke, für die du Erinnerungen erhalten möchtest.",
+        "data": {
+          "active_waste_types": "Für Erinnerungen aktiv"
+        }
+      },
+      "settings": {
+        "title": "Benachrichtigungen einrichten",
+        "description": "Wähle die Handys für Push-Nachrichten aus und lege fest, wann erinnert werden soll. Die beiden Dienstmonate begrenzen, in welchen Monaten automatische Erinnerungen verschickt werden.",
+        "data": {
+          "notify_services": "Benachrichtigte Geräte",
+          "reminders_enabled": "Benachrichtigungen insgesamt aktiv",
+          "evening_enabled": "Am Vorabend erinnern",
+          "evening_time": "Uhrzeit am Vorabend",
+          "morning_enabled": "Am Abholtag morgens erinnern",
+          "morning_time": "Uhrzeit am Morgen",
+          "month_1": "Erster Dienstmonat",
+          "month_2": "Zweiter Dienstmonat"
+        }
+      }
+    },
+    "error": {
+      "scan_failed": "Der Kalender konnte nicht gelesen werden.",
+      "no_waste_types": "Es wurden keine passenden Müllarten im Kalender gefunden."
+    }
+  },
+  "options": {
+    "abort": {
+      "no_calendars": "Es wurden keine Kalender-Entitäten gefunden. Richte zuerst einen Kalender in Home Assistant ein."
+    },
+    "step": {
+      "calendar": {
+        "title": "Müllkalender auswählen",
+        "description": "Wähle einen anderen Kalender aus, wenn die Abholtermine inzwischen in einer anderen Kalenderquelle liegen.",
+        "data": {
+          "calendar_entity": "Müllkalender"
+        }
+      },
+      "waste_types": {
+        "title": "Relevante Müllarten auswählen",
+        "description": "Diese Müllarten wurden zuletzt im Kalender erkannt. Hier kannst du gezielt steuern, für welche Arten Benachrichtigungen aktiv bleiben.",
+        "data": {
+          "active_waste_types": "Für Erinnerungen aktiv"
+        }
+      },
+      "settings": {
+        "title": "Benachrichtigungen einrichten",
+        "description": "Passe Geräte, Zeiten und Dienstmonate gesammelt in einem Schritt an. Ohne ausgewählte Handys werden keine Push-Nachrichten versendet.",
+        "data": {
+          "notify_services": "Benachrichtigte Geräte",
+          "reminders_enabled": "Benachrichtigungen insgesamt aktiv",
+          "evening_enabled": "Am Vorabend erinnern",
+          "evening_time": "Uhrzeit am Vorabend",
+          "morning_enabled": "Am Abholtag morgens erinnern",
+          "morning_time": "Uhrzeit am Morgen",
+          "month_1": "Erster Dienstmonat",
+          "month_2": "Zweiter Dienstmonat"
+        }
+      }
+    },
+    "error": {
+      "scan_failed": "Der Kalender konnte nicht gelesen werden.",
+      "no_waste_types": "Es wurden keine passenden Müllarten im Kalender gefunden."
+    }
+  }
+}
