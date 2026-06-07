@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from datetime import time
 
-DOMAIN = "muell_erinnerung"
-NAME = "Taubenweg 15"
-NOTIFICATION_TITLE = "Müllabfuhr"
+DOMAIN = "ha-waste-reminders"
+NAME = "ha waste reminders"
+NOTIFICATION_TITLE = "Taubenweg 15"
 
 PLATFORMS = ["sensor", "switch", "time", "button", "select"]
 

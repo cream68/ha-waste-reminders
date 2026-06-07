@@ -1,0 +1,92 @@
+{
+  "config": {
+    "abort": {
+      "no_calendars": "Es wurden keine Kalender-Entitäten gefunden. Richte zuerst einen Kalender in Home Assistant ein."
+    },
+    "step": {
+      "user": {
+        "title": "Müllkalender auswählen",
+        "description": "Wähle den Kalender aus, in dem deine Abholtermine stehen. Im nächsten Schritt wird der Kalender automatisch analysiert.",
+        "data": {
+          "calendar_entity": "Müllkalender"
+        }
+      },
+      "waste_types": {
+        "title": "Kalendereinträge auswählen",
+        "description": "Der ausgewählte Kalender wurde gescannt. Hier siehst du die eindeutigen gefundenen Einträge und wählst aus, für welche davon Erinnerungen aktiv sein sollen.",
+        "data": {
+          "active_waste_types": "Für Erinnerungen aktiv"
+        }
+      },
+      "settings": {
+        "title": "Benachrichtigungen einrichten",
+        "description": "Lege fest, wann erinnert werden soll und in welchen beiden Monaten automatische Erinnerungen aktiv sind.",
+        "data": {
+          "reminders_enabled": "Benachrichtigungen insgesamt aktiv",
+          "evening_enabled": "Am Vorabend erinnern",
+          "evening_time": "Uhrzeit am Vorabend",
+          "morning_enabled": "Am Abholtag morgens erinnern",
+          "morning_time": "Uhrzeit am Morgen",
+          "month_1": "Erster Dienstmonat",
+          "month_2": "Zweiter Dienstmonat"
+        }
+      },
+      "notify_devices": {
+        "title": "Geräte auswählen",
+        "description": "Wähle ein oder mehrere Handys für Push-Nachrichten aus. Ausgewählte Geräte erscheinen als Badges und verschwinden aus der Auswahlliste.",
+        "data": {
+          "notify_services": "Benachrichtigte Geräte"
+        }
+      }
+    },
+    "error": {
+      "scan_failed": "Der Kalender konnte nicht gelesen werden.",
+      "no_waste_types": "Es wurden keine auswertbaren Kalendereinträge im Kalender gefunden."
+    }
+  },
+  "options": {
+    "abort": {
+      "no_calendars": "Es wurden keine Kalender-Entitäten gefunden. Richte zuerst einen Kalender in Home Assistant ein."
+    },
+    "step": {
+      "calendar": {
+        "title": "Müllkalender auswählen",
+        "description": "Wähle einen anderen Kalender aus, wenn die Abholtermine inzwischen in einer anderen Kalenderquelle liegen.",
+        "data": {
+          "calendar_entity": "Müllkalender"
+        }
+      },
+      "waste_types": {
+        "title": "Kalendereinträge auswählen",
+        "description": "Der aktuell gewählte Kalender wurde gescannt. Hier siehst du die eindeutigen Einträge und legst fest, für welche davon Erinnerungen aktiv bleiben.",
+        "data": {
+          "active_waste_types": "Für Erinnerungen aktiv"
+        }
+      },
+      "settings": {
+        "title": "Benachrichtigungen einrichten",
+        "description": "Passe Zeiten und Dienstmonate gesammelt in einem Schritt an.",
+        "data": {
+          "reminders_enabled": "Benachrichtigungen insgesamt aktiv",
+          "evening_enabled": "Am Vorabend erinnern",
+          "evening_time": "Uhrzeit am Vorabend",
+          "morning_enabled": "Am Abholtag morgens erinnern",
+          "morning_time": "Uhrzeit am Morgen",
+          "month_1": "Erster Dienstmonat",
+          "month_2": "Zweiter Dienstmonat"
+        }
+      },
+      "notify_devices": {
+        "title": "Geräte auswählen",
+        "description": "Wähle die Handys für Push-Nachrichten aus. Ausgewählte Geräte erscheinen als Badges und werden nicht erneut in der Liste angeboten.",
+        "data": {
+          "notify_services": "Benachrichtigte Geräte"
+        }
+      }
+    },
+    "error": {
+      "scan_failed": "Der Kalender konnte nicht gelesen werden.",
+      "no_waste_types": "Es wurden keine auswertbaren Kalendereinträge im Kalender gefunden."
+    }
+  }
+}

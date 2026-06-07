@@ -42,7 +42,7 @@ class NextPickupSensor(WasteReminderEntity, SensorEntity):
             prefix = "Morgen"
         else:
             prefix = event.date.isoformat()
-        return f"{prefix}: {event.waste_type}"
+        return f"{prefix}: {event.summary}"
 
     @property
     def extra_state_attributes(self) -> dict:

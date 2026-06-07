@@ -91,26 +91,25 @@ class WasteReminderCoordinator(DataUpdateCoordinator[WasteCoordinatorData]):
         discovered: set[str] = set()
 
         for raw_event in raw_events:
-            summary = raw_event.get("summary") or ""
-            waste_type = detect_waste_type(summary)
-            if waste_type is None:
+            summary = (raw_event.get("summary") or "").strip()
+            if not summary:
                 continue
 
             event_date = normalize_event_date(raw_event.get("start"))
             if event_date is None:
                 continue
 
-            discovered.add(waste_type)
+            discovered.add(summary)
             events.append(
                 WasteEvent(
                     date=event_date,
-                    waste_type=waste_type,
+                    waste_type=detect_waste_type(summary) or summary,
                     summary=summary,
                     uid=raw_event.get("uid"),
                 )
             )
 
-        events.sort(key=lambda event: (event.date, event.waste_type, event.summary))
+        events.sort(key=lambda event: (event.date, event.summary, event.waste_type))
         discovered_waste_types = sorted(discovered)
 
         await self._async_sync_discovered_types(discovered_waste_types)
@@ -122,7 +121,10 @@ class WasteReminderCoordinator(DataUpdateCoordinator[WasteCoordinatorData]):
             return
 
         active = set(self.entry.options.get(CONF_ACTIVE_WASTE_TYPES, []))
-        merged_active = sorted(active & set(discovered_waste_types))
+        discovered_set = set(discovered_waste_types)
+        merged_active = sorted(
+            entry for entry in discovered_waste_types if entry in active or detect_waste_type(entry) in active
+        )
         await self.async_update_options(
             {
                 CONF_DISCOVERED_WASTE_TYPES: discovered_waste_types,
@@ -140,20 +142,20 @@ class WasteReminderCoordinator(DataUpdateCoordinator[WasteCoordinatorData]):
     def next_relevant_event(self) -> WasteEvent | None:
         """Return the next active waste event."""
         today = dt_util.now().date()
-        active = set(self.entry.options.get(CONF_ACTIVE_WASTE_TYPES, []))
+        active = self._active_entries
         for event in self.data.events:
-            if event.date >= today and event.waste_type in active:
+            if event.date >= today and event.summary in active:
                 return event
         return None
 
     def upcoming_relevant_events(self) -> list[WasteEvent]:
         """Return upcoming active events."""
         today = dt_util.now().date()
-        active = set(self.entry.options.get(CONF_ACTIVE_WASTE_TYPES, []))
+        active = self._active_entries
         return [
             event
             for event in self.data.events
-            if event.date >= today and event.waste_type in active
+            if event.date >= today and event.summary in active
         ][:NEXT_EVENTS_LIMIT]
 
     async def async_send_test_notification(self) -> None:
@@ -171,7 +173,7 @@ class WasteReminderCoordinator(DataUpdateCoordinator[WasteCoordinatorData]):
                 continue
 
             formatted_date = format_short_german_date(target_date)
-            messages.extend(f"{formatted_date} {waste_type}" for waste_type in waste_types)
+            messages.extend(f"{formatted_date} {summary}" for summary in waste_types)
 
         if not messages:
             LOGGER.debug("Manual calendar check found no relevant events for today or tomorrow")
@@ -193,7 +195,7 @@ class WasteReminderCoordinator(DataUpdateCoordinator[WasteCoordinatorData]):
 
         target_date = base_date + timedelta(days=1) if reminder_type == REMINDER_EVENING else base_date
         matching_events = [
-            event for event in self.data.events if event.date == target_date and event.waste_type in self._active_waste_types
+            event for event in self.data.events if event.date == target_date and event.summary in self._active_entries
         ]
         if not matching_events:
             return
@@ -201,17 +203,17 @@ class WasteReminderCoordinator(DataUpdateCoordinator[WasteCoordinatorData]):
         unsent_events = [
             event
             for event in matching_events
-            if not self._already_sent(event.date, event.waste_type, reminder_type)
+            if not self._already_sent(event.date, event.summary, reminder_type)
         ]
         if not unsent_events:
             return
 
-        waste_types = list(dict.fromkeys(event.waste_type for event in unsent_events))
-        message = self._build_reminder_message(reminder_type, waste_types)
+        summaries = list(dict.fromkeys(event.summary for event in unsent_events))
+        message = self._build_reminder_message(reminder_type, summaries)
         await self._async_send_notification(message)
 
         for event in unsent_events:
-            self.sent_notifications[self._sent_key(event.date, event.waste_type, reminder_type)] = datetime.now(UTC).isoformat()
+            self.sent_notifications[self._sent_key(event.date, event.summary, reminder_type)] = datetime.now(UTC).isoformat()
 
         self._prune_sent_notifications()
         await self.store.async_save({"sent_notifications": self.sent_notifications})
@@ -237,21 +239,21 @@ class WasteReminderCoordinator(DataUpdateCoordinator[WasteCoordinatorData]):
             except HomeAssistantError:
                 LOGGER.exception("Failed to call notify.%s", service)
 
-    def _build_reminder_message(self, reminder_type: str, waste_types: list[str]) -> str:
+    def _build_reminder_message(self, reminder_type: str, summaries: list[str]) -> str:
         target_date = dt_util.now().date() + timedelta(days=1) if reminder_type == REMINDER_EVENING else dt_util.now().date()
         formatted_date = format_short_german_date(target_date)
-        return "\n".join(f"{formatted_date} {waste_type}" for waste_type in waste_types)
+        return "\n".join(f"{formatted_date} {summary}" for summary in summaries)
 
     @property
-    def _active_waste_types(self) -> set[str]:
+    def _active_entries(self) -> set[str]:
         return set(self.entry.options.get(CONF_ACTIVE_WASTE_TYPES, []))
 
     def _waste_types_for_date(self, target_date: date) -> list[str]:
         return list(
             dict.fromkeys(
-                event.waste_type
+                event.summary
                 for event in self.data.events
-                if event.date == target_date and event.waste_type in self._active_waste_types
+                if event.date == target_date and event.summary in self._active_entries
             )
         )
 
@@ -262,12 +264,12 @@ class WasteReminderCoordinator(DataUpdateCoordinator[WasteCoordinatorData]):
         }
         return month in configured_months
 
-    def _already_sent(self, target_date: date, waste_type: str, reminder_type: str) -> bool:
-        return self._sent_key(target_date, waste_type, reminder_type) in self.sent_notifications
+    def _already_sent(self, target_date: date, summary: str, reminder_type: str) -> bool:
+        return self._sent_key(target_date, summary, reminder_type) in self.sent_notifications
 
     @staticmethod
-    def _sent_key(target_date: date, waste_type: str, reminder_type: str) -> str:
-        return f"{target_date.isoformat()}|{waste_type}|{reminder_type}"
+    def _sent_key(target_date: date, summary: str, reminder_type: str) -> str:
+        return f"{target_date.isoformat()}|{summary}|{reminder_type}"
 
     def _prune_sent_notifications(self) -> None:
         cutoff = dt_util.now().date() - timedelta(days=30)
@@ -291,6 +293,21 @@ async def scan_calendar_waste_types(hass: HomeAssistant, calendar_entity: str) -
         if (waste_type := detect_waste_type(event.get("summary") or ""))
     }
     return sorted(discovered)
+
+
+async def scan_calendar_entries(hass: HomeAssistant, calendar_entity: str) -> list[tuple[str, str]]:
+    """Read calendar events and return unique summaries."""
+    events = await async_fetch_calendar_events(hass, calendar_entity, SCAN_DAYS)
+    discovered: dict[str, str] = {}
+    for event in events:
+        summary = (event.get("summary") or "").strip()
+        if not summary:
+            continue
+        if summary in discovered:
+            continue
+        discovered[summary] = detect_waste_type(summary) or summary
+
+    return sorted(discovered.items(), key=lambda item: item[0].casefold())
 
 
 async def async_fetch_calendar_events(hass: HomeAssistant, calendar_entity: str, days: int) -> list[dict]:

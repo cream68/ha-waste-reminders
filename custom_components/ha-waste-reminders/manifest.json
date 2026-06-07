@@ -1,6 +1,6 @@
 {
-  "domain": "muell_erinnerung",
-  "name": "Müll-Erinnerung",
+  "domain": "ha-waste-reminders",
+  "name": "ha waste reminders",
   "version": "0.1.0",
   "documentation": "https://www.home-assistant.io/",
   "requirements": [],

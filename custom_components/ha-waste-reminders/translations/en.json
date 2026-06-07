@@ -1,0 +1,92 @@
+{
+  "config": {
+    "abort": {
+      "no_calendars": "No calendar entities were found. Set up a calendar in Home Assistant first."
+    },
+    "step": {
+      "user": {
+        "title": "Select waste calendar",
+        "description": "Choose the calendar that contains your pickup appointments. The calendar will be analyzed automatically in the next step.",
+        "data": {
+          "calendar_entity": "Waste calendar"
+        }
+      },
+      "waste_types": {
+        "title": "Select calendar entries",
+        "description": "The selected calendar was scanned. Here you can see the unique entries that were found and choose which ones should trigger reminders.",
+        "data": {
+          "active_waste_types": "Active for reminders"
+        }
+      },
+      "settings": {
+        "title": "Configure notifications",
+        "description": "Define when reminders should be sent and in which two months automatic reminders are active.",
+        "data": {
+          "reminders_enabled": "Notifications enabled",
+          "evening_enabled": "Remind the evening before",
+          "evening_time": "Evening time",
+          "morning_enabled": "Remind on pickup morning",
+          "morning_time": "Morning time",
+          "month_1": "First service month",
+          "month_2": "Second service month"
+        }
+      },
+      "notify_devices": {
+        "title": "Select devices",
+        "description": "Choose one or more phones for push notifications. Selected devices appear as badges and disappear from the remaining dropdown list.",
+        "data": {
+          "notify_services": "Notified devices"
+        }
+      }
+    },
+    "error": {
+      "scan_failed": "The calendar could not be read.",
+      "no_waste_types": "No matching waste entries were found in the calendar."
+    }
+  },
+  "options": {
+    "abort": {
+      "no_calendars": "No calendar entities were found. Set up a calendar in Home Assistant first."
+    },
+    "step": {
+      "calendar": {
+        "title": "Select waste calendar",
+        "description": "Choose another calendar if the pickup appointments are now stored in a different calendar source.",
+        "data": {
+          "calendar_entity": "Waste calendar"
+        }
+      },
+      "waste_types": {
+        "title": "Select calendar entries",
+        "description": "The selected calendar was scanned. Here you can see the unique entries and choose which ones should remain active for reminders.",
+        "data": {
+          "active_waste_types": "Active for reminders"
+        }
+      },
+      "settings": {
+        "title": "Configure notifications",
+        "description": "Adjust times and service months in one place.",
+        "data": {
+          "reminders_enabled": "Notifications enabled",
+          "evening_enabled": "Remind the evening before",
+          "evening_time": "Evening time",
+          "morning_enabled": "Remind on pickup morning",
+          "morning_time": "Morning time",
+          "month_1": "First service month",
+          "month_2": "Second service month"
+        }
+      },
+      "notify_devices": {
+        "title": "Select devices",
+        "description": "Choose the phones for push notifications. Selected devices appear as badges and are no longer offered in the dropdown list.",
+        "data": {
+          "notify_services": "Notified devices"
+        }
+      }
+    },
+    "error": {
+      "scan_failed": "The calendar could not be read.",
+      "no_waste_types": "No matching waste entries were found in the calendar."
+    }
+  }
+}

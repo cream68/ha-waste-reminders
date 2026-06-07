@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from datetime import date, datetime, time
+from datetime import date, datetime, time, timedelta
 import re
 import unicodedata
 
@@ -112,8 +112,15 @@ def join_human_list(values: Iterable[str]) -> str:
 
 
 def format_short_german_date(value: date) -> str:
-    """Format a date like 'Montag 08.06.'."""
-    return f"{GERMAN_WEEKDAYS[value.weekday()]} {value.strftime('%d.%m.')}"
+    """Format a date like 'Heute (08.06.)' or 'Morgen (09.06.)'."""
+    today = dt_util.now().date()
+    if value == today:
+        label = "Heute"
+    elif value == today + timedelta(days=1):
+        label = "Morgen"
+    else:
+        label = GERMAN_WEEKDAYS[value.weekday()]
+    return f"{label} ({value.strftime('%d.%m.')})"
 
 
 def month_name(month: int) -> str:
