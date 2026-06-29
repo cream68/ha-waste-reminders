@@ -1,10 +1,8 @@
 # ha waste reminders
 
-Custom Integration fuer Home Assistant.
+Custom integration for Home Assistant.
 
-## HACS Repo-Struktur
-
-Damit HACS die Integration installieren kann, muss dein GitHub-Repository so aufgebaut sein:
+## HACS structure
 
 ```text
 .
@@ -22,21 +20,18 @@ Damit HACS die Integration installieren kann, muss dein GitHub-Repository so auf
 │       ├── entity.py
 │       ├── const.py
 │       ├── utils.py
-│       └── strings.json
+│       ├── strings.json
+│       └── translations/
 ├── hacs.json
 └── README.md
 ```
 
-## Wichtig
+## Notes
 
-Die lokale Entwicklungsstruktur unter `config/custom_components/ha_waste_reminders/` ist fuer deine Home-Assistant-Instanz korrekt.
+Local development runs from:
 
-Fuer GitHub und HACS musst du aber nur den Ordner `ha_waste_reminders` in ein Repo-Root unter `custom_components/` legen.
+`config/custom_components/ha_waste_reminders/`
 
-Diese Ordner und Dateien solltest du nicht ins HACS-Repo uebernehmen:
+For GitHub/HACS, publish only:
 
-- `config/.storage/`
-- `config/home-assistant.log`
-- `config/home-assistant.log.1`
-- `config/tts/`
-- `config/blueprints/`
+`custom_components/ha_waste_reminders/`

@@ -189,11 +189,15 @@ class WasteReminderCoordinator(DataUpdateCoordinator[WasteCoordinatorData]):
         await self.async_request_refresh()
 
         base_date = dt_util.now().date()
-        if not self._is_service_month(base_date.month):
-            LOGGER.debug("Skipping %s reminder outside configured service months", reminder_type)
+        target_date = base_date + timedelta(days=1) if reminder_type == REMINDER_EVENING else base_date
+        if not self._is_service_month(target_date.month):
+            LOGGER.debug(
+                "Skipping %s reminder because target date %s is outside configured service months",
+                reminder_type,
+                target_date,
+            )
             return
 
-        target_date = base_date + timedelta(days=1) if reminder_type == REMINDER_EVENING else base_date
         matching_events = [
             event for event in self.data.events if event.date == target_date and event.summary in self._active_entries
         ]
